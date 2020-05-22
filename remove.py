@@ -53,11 +53,26 @@ mask = cv.morphologyEx(thresh, cv.MORPH_CLOSE, kernel, iterations=4)
 # result[mask==0] = (0,0,0)
 
 img1=cv.resize(edges,(600,400))
-cv.imshow(' Image', img1)
-
-img=cv.resize(mask,(600,400))
-cv.imshow('Original Image', img)
-cv.waitKey()
+import sys
+img=cv.resize(mask,(300,200))
+data=img.tolist()
+sys.setrecursionlimit(10**8) 
+def magic(data,i,j,level):
+    print(i,j,level)
+    try:
+        if data[i][j]!=0:
+            return
+    except:
+        return
+    if(i<0 or j<0):
+        return 
+    else:
+        data[i][j]=-1
+        magic(data,i-1,j,level+1)
+        magic(data,i+1,j,level+1)
+        magic(data,i,j+1,level+1)
+        magic(data,i,j-1,level+1)
+magic(data,0,0,0)
 
 # plt.imshow(result,cmap = 'gray')
 # plt.title('edge')
