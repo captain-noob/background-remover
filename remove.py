@@ -57,22 +57,21 @@ import sys
 img=cv.resize(mask,(300,200))
 data=img.tolist()
 sys.setrecursionlimit(10**8) 
-def magic(data,i,j,level):
-    print(i,j,level)
-    try:
-        if data[i][j]!=0:
-            return
-    except:
-        return
-    if(i<0 or j<0):
-        return 
-    else:
-        data[i][j]=-1
-        magic(data,i-1,j,level+1)
-        magic(data,i+1,j,level+1)
-        magic(data,i,j+1,level+1)
-        magic(data,i,j-1,level+1)
-magic(data,0,0,0)
+for i in range(len(data)):
+    for j in range(len(data[i])):
+        if data[i][j]!=255:
+            data[i][j]=-1
+        else:
+            break
+    for j in range(len(data[i])-1,-1,-1):
+        if data[i][j]!=255:
+            data[i][j]=-1
+        else:
+            break
+image=np.array(data)
+image[image!=-1]=255
+image[image==-1]=0
+plt.imshow(image)
 
 # plt.imshow(result,cmap = 'gray')
 # plt.title('edge')
